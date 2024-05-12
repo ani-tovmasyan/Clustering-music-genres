@@ -23,12 +23,10 @@ class ChromaFeatures:
     Methods :
                 chroma_stft   : Computes chromagram using short fourier transform
                 chroma_cqt    : Computes chromagram from constant-q transform of the audio signal
-                chroma_cens   : Computes improved chromagram using CENS method as mentioned in
                 chroma_hpcp   : Computes Harmonic pitch class profiles aka HPCP (improved chromagram)
     Example use :
                 chroma = ChromaFeatures("./data/test_audio.wav")
                 #chroma cens with default parameters
-                chroma.chroma_cens()
                 #chroma stft with default parameters
                 chroma.chroma_stft()
     """
@@ -42,39 +40,6 @@ class ChromaFeatures:
             self.audio_vector = estd.MonoLoader(filename=audio_file, sampleRate=self.fs)()
         print("== Audio vector of %s loaded with shape %s and sample rate %s ==" % (audio_file, self.audio_vector.shape, self.fs))
         return
-
-
-    def chroma_stft(self, frameSize=4096, hopSize=2048):
-        """
-        Computes the chromagram from the short-term fourier transform of the input audio signal
-        """
-        chroma = librosa.feature.chroma_stft(y=self.audio_vector,
-                                            sr=self.fs,
-                                            tuning=0,
-                                            norm=2,
-                                            hop_length=hopSize,
-                                            n_fft=frameSize)
-        return np.swapaxes(chroma, 0, 1)
-
-    def chroma_cqt(self, hopSize=2048):
-        """
-        Computes the chromagram feature from the constant-q transform of the input audio signal
-        """
-        chroma = librosa.feature.chroma_cqt(y=self.audio_vector,
-                                            sr=self.fs,
-                                            hop_length=hopSize)
-        return np.swapaxes(chroma, 0, 1)
-
-
-    def chroma_cens(self, hopSize=2048):
-        '''
-        Computes CENS chroma vectors for the input audio signal (numpy array)
-        Refer https://librosa.github.io/librosa/generated/librosa.feature.chroma_cens.html for more parameters
-        '''
-        chroma_cens = librosa.feature.chroma_cens(y=self.audio_vector,
-                                                  sr=self.fs,
-                                                  hop_length=hopSize)
-        return np.swapaxes(chroma_cens, 0, 1)
 
 
     def chroma_hpcp(self,
@@ -171,27 +136,4 @@ class ChromaFeatures:
 
 
         return pool['tonal.hpcp']
-
-    def beat_sync_chroma(self, chroma):
-        """
-        Computes the beat-sync chromagram
-        [TODO] : add madmom beat tracker
-        """
-        y_harmonic, y_percussive = librosa.effects.hpss(self.audio_vector)
-        tempo, beat_frames = librosa.beat.beat_track(y=y_percussive,sr=self.fs)
-        beat_chroma = librosa.util.sync(chroma, beat_frames, aggregate=np.median)
-        return beat_chroma
-
-
-    def two_dim_fft_magnitudes(self, feature_vector):
-        """
-        Computes 2d - fourier transform magnitude coefficiants of the input feature vector (numpy array)
-        Usually fed by Constant-q transform or chroma feature vectors for cover detection tasks.
-        """
-        import matplotlib.pyplot as plt
-        # 2d fourier transform
-        ndim_fft = np.fft.fft2(feature_vector)
-        ndim_fft_mag = np.abs(np.fft.fftshift(ndim_fft))
-        return ndim_fft_mag
-
 

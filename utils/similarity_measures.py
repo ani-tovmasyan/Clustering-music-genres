@@ -5,7 +5,6 @@ Some set of functions for computing audio similarity measures for the task of co
 
 * cross_recurrent_plots
 * qmax_measure [1]
-* dmax_measure [2]
 
 [1]. Serra, J., Serra, X., & Andrzejak, R. G. (2009). Cross recurrence quantification for cover song identification.
      New Journal of Physics.
@@ -171,41 +170,3 @@ def qmax_measure(crp, gammaO=0.5, gammaE=0.5):
     qmax = np.divide(np.sqrt(Ny), np.max(cum_matrix)+0.00001)
     return qmax, cum_matrix
 
-@jit(nopython=True)
-def dmax_measure(crp, gammaO=0.5, gammaE=0.5):
-    """
-    Computes distance cover song similarity measure from the cross recurrent plots as mentioned in [1]
-
-    Inputs :
-            crp : 2-d binary matrix of cross recurrent plot
-    Params :
-            gammaO : penalty for a disurption onset
-            gammaE : penalty for a disurption extension
-    Output : dmax similarity measure from a crp matrix
-    [TODO : to optimize and re-implement it by pythonic numpy way]
-
-    [1]. Chen, N., Li, W., & Xiao, H. (2017). Fusing similarity functions for cover song identification.
-         Multimedia Tools and Applications.
-    """
-    Nx = crp.shape[0]
-    Ny = crp.shape[1]
-    cum_matrix = np.zeros(crp.shape)
-    #for the moment doing it in the matlab way
-    for i in range(3,Nx):
-        for j in range(3,Ny):
-            if int(crp[i,j]) == 1:
-                cum_matrix[i][j] = max([cum_matrix[i-1][j-1],
-                                            cum_matrix[i-2][j-1] + crp[i-1][j],
-                                            cum_matrix[i-1][j-2] + crp[i][j-1],
-                                            cum_matrix[i-3][j-1] + crp[i-2][j] + crp[i-1][j],
-                                            cum_matrix[i-1][j-3] + crp[i][j-2], crp[i][j-1]]) + 1
-            else:
-                cum_matrix[i][j] = max([0,
-                                            (cum_matrix[i-1][j-1] - gamma_state(crp[i-1][j-1], gammaO, gammaE)),
-                                            ((cum_matrix[i-2][j-1] + crp[i-1][j]) - gamma_state(crp[i-2][j-1], gammaO, gammaE)),
-                                            ((cum_matrix[i-1][j-2] + crp[i][j-1]) - gamma_state(crp[i-1][j-2], gammaO, gammaE)),
-                                            ((cum_matrix[i-3][j-1] + crp[i-2][j] + crp[i-1][j]) -  gamma_state(crp[i-3][j-1], gammaO, gammaE)),
-                                            ((cum_matrix[i-1][j-3] + crp[i][j-2] + crp[i][j-1]) -  gamma_state(crp[i-1][j-3], gammaO, gammaE))])
-    #print "Cumulative Matrix computed with shape :", cum_matrix.shape
-    dmax = np.divide(np.sqrt(Ny), np.max(cum_matrix))
-    return dmax, cum_matrix
