@@ -24,6 +24,8 @@ from numba import jit
 
 def global_hpcp(chroma):
     """Computes global hpcp of a input chroma vector"""
+    if len(chroma.shape)==1:
+        chroma = chroma.reshape((-1, 12))
     if chroma.shape[1] not in [11, 12, 24, 36]:
         raise IOError("Wrong axis for the input chroma array. Use numpy swapaxis for swapping the axis of input array")
     return np.sum(chroma, axis=0) / np.max(np.sum(chroma, axis=0))

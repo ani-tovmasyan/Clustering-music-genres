@@ -41,9 +41,10 @@ def qmax(hpcp1, hpcp2):
 
 
 class ClusterMaker:
-    def __init__(self, covers_database, n_neighbors=20, build_hpcp=True):
+    def __init__(self, covers_database, n_neighbors=20, build_hpcp=True, metric='euclidean'):
         self.covers_database_path = covers_database
         self.n_neighbors = n_neighbors
+        self.metric = metric
         if build_hpcp:
             self.build_hpcp()
         self.read_database()
@@ -53,7 +54,7 @@ class ClusterMaker:
             for file in filenames:
                 if file.endswith('.wav'):
                     filepath = os.path.join(dirpath, file)
-                    if  not os.path.exists(filepath.replace('.wav', '.npy')):
+                    if  not os.path.exists(filepath.replace('.wav', '.npy').replace('.mp3', '.npy')):
                         get_hpcp(filepath) 
 
     def read_database(self):
@@ -79,7 +80,10 @@ class ClusterMaker:
         # "Fit" on the training labels; this is really just specifying our vocabulary
         encoder = LabelEncoder()
         self.covers['y'] = encoder.fit_transform(self.covers['y'])
-        self.knn = KNeighborsClassifier(n_neighbors=self.n_neighbors)#, metric='cosine')
+        if self.metric=='qmax':
+            self.knn = KNeighborsClassifier(n_neighbors=self.n_neighbors, metric=qmax)
+        else:
+            self.knn = KNeighborsClassifier(n_neighbors=self.n_neighbors, metric=self.metric)
         self.knn.fit(self.covers['data'], self.covers['y'])
 
     def get_cluster(self):
