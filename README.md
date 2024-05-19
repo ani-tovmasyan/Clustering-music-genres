@@ -34,6 +34,6 @@ Ensure you have Git and Conda installed on your system to manage the repository 
 Run the script with the following command, substituting <dataset_path> and <song_path> with the paths to your dataset and song files:
 
 ```bash
-python3 song_clustering.py <dataset_path> <song_path>
+python3 song_clustering.py <dataset_path> <model_save_path> <encoder_save_path> <song_path>
 ```
 
