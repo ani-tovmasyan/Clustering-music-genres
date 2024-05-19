@@ -1,0 +1,15 @@
+<!-- templates/predict.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Predict</title>
+</head>
+<body>
+    <h1>Upload an Audio File for Prediction</h1>
+    <form action="/predict" method="post" enctype="multipart/form-data">
+        <input type="file" name="audio_file" accept=".wav,.mp3">
+        <input type="submit" value="Predict">
+    </form>
+    <button onclick="window.location.href='/'">Back</button>
+</body>
+</html>

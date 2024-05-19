@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Model Details</title>
+</head>
+<body>
+    <h1>Model Details</h1>
+    <p>Algorithm Name: {{ details.algorithm_name }}</p>
+    <p>Related Papers:
+        <ul>
+        {% for paper in details.related_papers %}
+            <li><a href="{{ paper }}">{{ paper }}</a></li>
+        {% endfor %}
+        </ul>
+    </p>
+    <p>Version: {{ details.version }}</p>
+    <p>Training Date: {{ details.training_date }}</p>
+    <p>Dataset Used: <a href="{{ details.dataset_url }}">{{ details.dataset_used }}</a></p>
+    <button onclick="window.location.href='/'">Back</button>
+</body>
+</html>
