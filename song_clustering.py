@@ -42,10 +42,15 @@ def qmax(hpcp1, hpcp2):
 
 
 class ClusterMaker:
+<<<<<<< HEAD
     def __init__(self,encoder_path, model_path, covers_database= None, n_neighbors=20, metric='euclidean', build_hpcp=False, read_database = True):
+=======
+    def __init__(self, covers_database, n_neighbors=20, build_hpcp=True, metric='euclidean'):
+>>>>>>> 0dd86b9ca77b78f5a52d3e2cee545f9aa5370b74
         self.covers_database_path = covers_database
         self.metric = metric
         self.n_neighbors = n_neighbors
+<<<<<<< HEAD
         self.model_path = model_path
         self.encoder_path = encoder_path 
 
@@ -55,6 +60,12 @@ class ClusterMaker:
             self.read_database()
         else:
             self.load_encoder_and_covers()
+=======
+        self.metric = metric
+        if build_hpcp:
+            self.build_hpcp()
+        self.read_database()
+>>>>>>> 0dd86b9ca77b78f5a52d3e2cee545f9aa5370b74
 
     def build_hpcp(self):
         for dirpath, dirnames, filenames in os.walk(self.covers_database_path):
@@ -88,7 +99,10 @@ class ClusterMaker:
         # "Fit" on the training labels; this is really just specifying our vocabulary
         encoder = LabelEncoder()
         self.covers['y'] = encoder.fit_transform(self.covers['y'])
+<<<<<<< HEAD
         self.encoder = encoder
+=======
+>>>>>>> 0dd86b9ca77b78f5a52d3e2cee545f9aa5370b74
         if self.metric=='qmax':
             self.knn = KNeighborsClassifier(n_neighbors=self.n_neighbors, metric=qmax)
         else:
