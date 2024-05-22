@@ -15,22 +15,22 @@ from song_clustering import ClusterMaker, get_hpcp
 
 @pytest.fixture
 def audio_path():
-    return "./covers80_test/coversongs/covers32k/Addicted_To_Love/robert_palmer+Riptide+03-Addicted_To_Love.mp3"
+    return "/home/tatev/Documents/Clustering-music-genres/covers80_test/coversongs/covers32k/Addicted_To_Love/robert_palmer+Riptide+03-Addicted_To_Love.mp3"
 
 
 @pytest.fixture
 def covers_database_path():
-    return "./covers80_test/coversongs/covers32k"
+    return "/home/tatev/Documents/Clustering-music-genres/covers80_test/coversongs/covers32k"
 
 
 @pytest.fixture
 def encoder_path():
-    return "./encoder"
+    return "/home/tatev/Documents/Clustering-music-genres/encoder"
 
 
 @pytest.fixture
 def model_path():
-    return "./model"
+    return "/home/tatev/Documents/Clustering-music-genres/model"
 
 
 def test_get_hpcp(audio_path):
