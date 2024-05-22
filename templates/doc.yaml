@@ -1,0 +1,68 @@
+openapi: 3.0.0
+info:
+  title: "Song Similarity Classification API"
+  description: "An API for classifying songs based on similarity"
+  version: "1.0"
+
+paths:
+  /:
+    get:
+      summary: "Main Page"
+      description: "Welcome page for the Song Similarity Classification API."
+      responses:
+        '200':
+          description: "Welcome message and navigation buttons."
+          content:
+            text/html:
+              schema:
+                type: string
+                example: "<!DOCTYPE html>...</html>"
+              
+  /model-details:
+    get:
+      summary: "Model Details"
+      description: "Displays details about the model used for song classification."
+      responses:
+        '200':
+          description: "Model details HTML page."
+          content:
+            text/html:
+              schema:
+                type: string
+                example: "<!DOCTYPE html>...</html>"
+                
+  /predict-form:
+    get:
+      summary: "Prediction Form"
+      description: "Displays a form to upload an audio file for prediction."
+      responses:
+        '200':
+          description: "Prediction form HTML page."
+          content:
+            text/html:
+              schema:
+                type: string
+                example: "<!DOCTYPE html>...</html>"
+    
+  /predict:
+    post:
+      summary: "Predict Song Cluster"
+      description: "Predicts the song cluster for the uploaded audio file."
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                audio_file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: "Prediction result HTML page."
+          content:
+            text/html:
+              schema:
+                type: string
+                example: "<!DOCTYPE html>...</html>"
