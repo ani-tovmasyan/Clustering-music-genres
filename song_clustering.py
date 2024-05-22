@@ -42,7 +42,7 @@ def qmax(hpcp1, hpcp2):
 
 
 class ClusterMaker:
-    def __init__(self, encoder_path, model_path, covers_database= None, n_neighbors=20, metric='euclidean', build_hpcp=False, read_database = True):
+    def __init__(self, encoder_path, model_path, covers_database= "/home/tatev/Documents/Clustering-music-genres/covers80_test/coversongs/covers32k", n_neighbors=20, metric='euclidean', build_hpcp=False, read_database = True):
         self.covers_database_path = covers_database
         self.metric = metric
         self.n_neighbors = n_neighbors
