@@ -12,31 +12,25 @@ sys.path.append(project_root)
 
 from song_clustering import ClusterMaker, get_hpcp
 
-
 @pytest.fixture
 def audio_path():
-    return "/home/tatev/Documents/Clustering-music-genres/covers80_test/coversongs/covers32k/Addicted_To_Love/robert_palmer+Riptide+03-Addicted_To_Love.mp3"
-
+    return "./test_audio_files/robert_palmer+Riptide+03-Addicted_To_Love.mp3"
 
 @pytest.fixture
 def covers_database_path():
-    return "/home/tatev/Documents/Clustering-music-genres/covers80_test/coversongs/covers32k"
-
+    return "./test_audio_files/covers32k/"
 
 @pytest.fixture
 def encoder_path():
-    return "/home/tatev/Documents/Clustering-music-genres/encoder"
-
+    return "./encoder"
 
 @pytest.fixture
 def model_path():
-    return "/home/tatev/Documents/Clustering-music-genres/model"
-
+    return "./model"
 
 def test_get_hpcp(audio_path):
     hpcp = get_hpcp(audio_path, save=False)
     assert hpcp.shape[0] > 0
-
 
 def test_cluster_maker(covers_database_path, encoder_path, model_path, audio_path):
     cluster_maker = ClusterMaker(encoder_path, model_path, covers_database_path)
@@ -66,5 +60,7 @@ def test_cluster_maker(covers_database_path, encoder_path, model_path, audio_pat
     assert isinstance(cluster_maker.knn, KNeighborsClassifier)
 
     # Test querying
-    most_similar_class = cluster_maker(audio_path)
-    assert isinstance(most_similar_class, str)
+    most_similar_classes = cluster_maker(audio_path)
+    assert isinstance(most_similar_classes, list)
+    assert len(most_similar_classes) == 5
+    assert len(set(most_similar_classes)) == 5  # Test that all returned classes are unique

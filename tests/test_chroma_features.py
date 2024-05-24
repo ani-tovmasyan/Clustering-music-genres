@@ -8,7 +8,7 @@ sys.path.append(project_root)
 from utils.chroma_features import ChromaFeatures
 
 def test_chroma_hpcp():
-    dataset_path = "./covers80_test/coversongs/covers32k"
+    dataset_path = "./test_audio_files/covers32k"
 
     for root, dirs, files in os.walk(dataset_path):
         for file in files:

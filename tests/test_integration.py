@@ -12,7 +12,7 @@ client = TestClient(app)
 
 
 def test_predict_endpoint_with_audio_file():
-    audio_file_path = "/home/tatev/Documents/Clustering-music-genres/covers80_test/coversongs/covers32k/Addicted_To_Love/robert_palmer+Riptide+03-Addicted_To_Love.mp3"
+    audio_file_path = "./test_audio_files/robert_palmer+Riptide+03-Addicted_To_Love.mp3"
 
     response = client.post("/predict", files={"audio_file": open(audio_file_path, "rb")})
 
