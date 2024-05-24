@@ -49,7 +49,7 @@ class ClusterMaker:
         self.model_path = model_path
         self.encoder_path = encoder_path 
 
-        if covers_database is not None:
+        if covers_database is not None and read_database:
             if build_hpcp:
                 self.build_hpcp()
             self.read_database()
@@ -58,7 +58,6 @@ class ClusterMaker:
         self.metric = metric
         if build_hpcp:
             self.build_hpcp()
-        #self.read_database()
 
     def build_hpcp(self):
         for dirpath, dirnames, filenames in os.walk(self.covers_database_path):
