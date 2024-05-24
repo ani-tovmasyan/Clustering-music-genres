@@ -1,21 +1,108 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Model Details</title>
+    <style>
+        /* Base layout styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f4f8; /* Lighter background for overall page */
+            color: #333; /* Standard text color for readability */
+            margin: 0;
+            padding: 10px; /* Reduced padding */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        /* Content box styling */
+        .container {
+            background: transparent; /* Removing the white background */
+            text-align: left;
+            padding: 15px; /* Adjusted padding */
+            width: 50%; /* Reduce width for compact layout */
+            max-width: 600px; /* Reduce maximum width */
+            font-size: 14px; /* Smaller text size */
+        }
+
+        h1 {
+            color: #ff69b4; /* Pink text for title */
+            margin-bottom: 15px; /* Adjusted spacing */
+        }
+
+        p, ul, li, a, button {
+            color: #333; /* All other texts in black */
+        }
+
+        ul {
+            padding: 0;
+        }
+
+        li {
+            list-style-type: none; /* Remove bullet points */
+            margin-bottom: 5px; /* Smaller spacing */
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        button {
+            background-color: #fa77e0; /* Standard blue for button */
+            color: white;
+            border: none;
+            padding: 8px 16px; /* Smaller button */
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            align-self: center; /* Center align */
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+
+        img {
+            width: 100%; /* Full width of the container */
+            height: auto; /* Maintain aspect ratio */
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                width: 80%; /* More width on smaller screens */
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Model Details</h1>
-    <p>Algorithm Name: {{ details.algorithm_name }}</p>
-    <p>Related Papers:
-        <ul>
-        {% for paper in details.related_papers %}
-            <li><a href="{{ paper }}">{{ paper }}</a></li>
-        {% endfor %}
-        </ul>
-    </p>
-    <p>Version: {{ details.version }}</p>
-    <p>Training Date: {{ details.training_date }}</p>
-    <p>Dataset Used: <a href="{{ details.dataset_url }}">{{ details.dataset_used }}</a></p>
-    <button onclick="window.location.href='/'">Back</button>
+    <div class="container">
+        <h1>Model Details</h1>
+        <p>Algorithm Name: {{ details.algorithm_name }}</p>
+        <p>Related Papers:
+            <ul>
+                {% for paper in details.related_papers %}
+                    <li><a href="{{ paper }}" target="_blank">{{ paper }}</a></li>
+                {% endfor %}
+            </ul>
+        </p>
+        <p>Version: {{ details.version }}</p>
+        <p>Training Date: {{ details.training_date }}</p>
+        <p>Dataset Used: <a href="{{ details.dataset_url }}" target="_blank">{{ details.dataset_used }}</a></p>
+        <p>{{ details.dataset_description }}</p>
+        <img src="{{ details.generated_image_path }}" alt="80s Music Theme Image">
+        <button onclick="window.location.href='/'">Back</button>
+    </div>
 </body>
 </html>

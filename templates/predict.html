@@ -1,13 +1,64 @@
-<!-- templates/predict.html -->
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Predict</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f4f8;
+            color: #333333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        h1 {
+            color: #e65996;
+        }
+        form {
+            margin: 20px;
+        }
+        .custom-file-upload {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: inline-block;
+        }
+        input[type="file"] {
+            display: none;
+        }
+        input[type="submit"], button {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        input[type="submit"]:hover, button:hover {
+            background-color: #555;
+        }
+        button {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
     <h1>Upload an Audio File for Prediction</h1>
     <form action="/predict" method="post" enctype="multipart/form-data">
-        <input type="file" name="audio_file" accept=".wav,.mp3">
+        <label class="custom-file-upload">
+            <input type="file" name="audio_file" accept=".wav,.mp3">
+            Choose File
+        </label>
         <input type="submit" value="Predict">
     </form>
     <button onclick="window.location.href='/'">Back</button>
