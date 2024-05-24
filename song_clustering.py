@@ -42,7 +42,7 @@ def qmax(hpcp1, hpcp2):
 
 
 class ClusterMaker:
-    def __init__(self, encoder_path, model_path, covers_database= "/home/tatev/Documents/Clustering-music-genres/covers80_test/coversongs/covers32k", n_neighbors=20, metric='euclidean', build_hpcp=False, read_database = True):
+    def __init__(self, encoder_path, model_path, covers_database= None, n_neighbors=20, metric='euclidean', build_hpcp=False, read_database = False):
         self.covers_database_path = covers_database
         self.metric = metric
         self.n_neighbors = n_neighbors
@@ -58,7 +58,7 @@ class ClusterMaker:
         self.metric = metric
         if build_hpcp:
             self.build_hpcp()
-        self.read_database()
+        #self.read_database()
 
     def build_hpcp(self):
         for dirpath, dirnames, filenames in os.walk(self.covers_database_path):
@@ -124,24 +124,37 @@ class ClusterMaker:
 
         return indexes
 
-    def __call__(self, audio_path, ):
+    def __call__(self, audio_path):
         hpcp_path = audio_path.replace('.wav', '.npy').replace('.mp3', '.npy')
-        self.query = {'hpcp':None}
+        self.query = {'hpcp': None}
 
         if not os.path.exists(hpcp_path):
-
             self.query['hpcp'] = get_hpcp(audio_path)
         else:
             self.query['hpcp'] = np.load(hpcp_path)
-        if self.query['hpcp'].shape[0]<2585:
+        
+        if self.query['hpcp'].shape[0] < 2585:
             return -1
         self.query['hpcp'] = self.query['hpcp'][:2585].flatten()
 
-        cluster = self.get_cluster()
-        most_similar_class_index = cluster[0]
-        most_similar_class_name = self.encoder.inverse_transform([self.covers['y'][most_similar_class_index]])[0]
+        # Get the indices of clusters and ensure you have enough to find 5 unique classes
+        cluster_indices = self.get_cluster()
+        unique_classes = []
+        unique_indices = []
+        
+        for idx in cluster_indices:
+            class_index = self.covers['y'][idx]
+            if class_index not in unique_classes:
+                unique_classes.append(class_index)
+                unique_indices.append(idx)
+            if len(unique_classes) == 5:
+                break
+        
+        # Use the unique indices to fetch the class names
+        most_similar_class_names = self.encoder.inverse_transform(unique_classes)
 
-        return most_similar_class_name
+        return most_similar_class_names  
+
 
 
 

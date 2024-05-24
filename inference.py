@@ -14,10 +14,6 @@ def main( encoder_path, model_path, query_audio_path):
     print(f'Time: {datetime.now() - now}')
 
 if __name__ == '__main__':
-    # argv1 - dataset directory
-    # argv2 - encoder path
-    # argv3 - model path
-    # argv4 - query song
     if len(sys.argv) != 4:
         print("Usage: python inference_script.py <encoder_path> <model_path> <query_audio_path>")
         sys.exit(1)
