@@ -29,6 +29,19 @@
             font-size: 18px;
             color: black; /* Standard color for readability */
         }
+        .song-button {
+            background-color: #ff69b4;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin: 5px 0;
+        }
+        .song-button:hover {
+            background-color: #ff1493;
+        }
         button {
             background-color: #ff69b4;
             color: white;
@@ -48,10 +61,14 @@
     <h1>Prediction Result</h1>
     <p>Here are the top five most similar classes, ordered by similarity:</p>
     <ul>
-        {% for class_name in similar_classes %}
-            <li>{{ class_name }}</li>
+        {% for class_name, song_path in similar_classes %}
+            <li>
+                {{ class_name }}
+                <button class="song-button" onclick="window.open('{{ song_path }}', '_blank')">Play</button>
+            </li>
         {% endfor %}
     </ul>
     <button onclick="window.location.href='/'">Back to Home</button>
 </body>
 </html>
+

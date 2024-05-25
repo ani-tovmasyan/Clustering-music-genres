@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: "Song Similarity Classification API"
   description: "An API for classifying songs based on similarity"
-  version: "1.0"
+  version: "1.1"
 
 paths:
   /:
@@ -16,8 +16,54 @@ paths:
             text/html:
               schema:
                 type: string
-                example: "<!DOCTYPE html>...</html>"
-              
+                example: |
+                  <!DOCTYPE html>
+                  <html lang="en">
+                  <head>
+                      <meta charset="UTF-8">
+                      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                      <title>Welcome to the Song Similarity Classification</title>
+                      <style>
+                          body {
+                              font-family: 'Arial', sans-serif;
+                              background-color: #f4f4f9;
+                              margin: 0;
+                              padding: 20px;
+                              display: flex;
+                              flex-direction: column;
+                              align-items: center;
+                              justify-content: center;
+                              height: 100vh;
+                          }
+                          h1 {
+                              color: #333;
+                          }
+                          button {
+                              background-color: #ff69b4; /* Pink */
+                              border: none;
+                              color: white;
+                              padding: 15px 32px;
+                              text-align: center;
+                              text-decoration: none;
+                              display: inline-block;
+                              font-size: 16px;
+                              margin: 10px 2px;
+                              cursor: pointer;
+                              border-radius: 4px;
+                              transition: background-color 0.3s;
+                          }
+                          button:hover {
+                              background-color: #ff1493; /* Darker Pink */
+                          }
+                      </style>
+                  </head>
+                  <body>
+                      <h1>Welcome to the Song Similarity Classification</h1>
+                      <button onclick="window.location.href='/model-details'">Model Details</button>
+                      <button onclick="window.location.href='/predict-form'">Predict</button>
+                  </body>
+                  </html>
+
   /model-details:
     get:
       summary: "Model Details"
@@ -29,8 +75,102 @@ paths:
             text/html:
               schema:
                 type: string
-                example: "<!DOCTYPE html>...</html>"
-                
+                example: |
+                  <!DOCTYPE html>
+                  <html lang="en">
+                  <head>
+                      <meta charset="UTF-8">
+                      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                      <title>Model Details</title>
+                      <style>
+                          body {
+                              font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                              background-color: #f0f4f8; /* Lighter background for overall page */
+                              color: #333; /* Standard text color for readability */
+                              margin: 0;
+                              padding: 10px; /* Reduced padding */
+                              display: flex;
+                              flex-direction: column;
+                              align-items: center;
+                              justify-content: center;
+                              min-height: 100vh;
+                          }
+                          .container {
+                              background: transparent; /* Removing the white background */
+                              text-align: left;
+                              padding: 15px; /* Adjusted padding */
+                              width: 50%; /* Reduce width for compact layout */
+                              max-width: 600px; /* Reduce maximum width */
+                              font-size: 14px; /* Smaller text size */
+                          }
+                          h1 {
+                              color: #ff69b4; /* Pink text for title */
+                              margin-bottom: 15px; /* Adjusted spacing */
+                          }
+                          p, ul, li, a, button {
+                              color: #333; /* All other texts in black */
+                          }
+                          ul {
+                              padding: 0;
+                          }
+                          li {
+                              list-style-type: none; /* Remove bullet points */
+                              margin-bottom: 5px; /* Smaller spacing */
+                          }
+                          a {
+                              text-decoration: none;
+                          }
+                          a:hover {
+                              text-decoration: underline;
+                          }
+                          button {
+                              background-color: #fa77e0; /* Standard blue for button */
+                              color: white;
+                              border: none;
+                              padding: 8px 16px; /* Smaller button */
+                              border-radius: 4px;
+                              cursor: pointer;
+                              transition: background-color 0.3s;
+                              align-self: center; /* Center align */
+                              margin-top: 20px;
+                          }
+                          button:hover {
+                              background-color: #0056b3; /* Darker blue on hover */
+                          }
+                          img {
+                              width: 100%; /* Full width of the container */
+                              height: auto; /* Maintain aspect ratio */
+                              border-radius: 5px;
+                              margin-top: 20px;
+                          }
+                          @media (max-width: 768px) {
+                              .container {
+                                  width: 80%; /* More width on smaller screens */
+                              }
+                          }
+                      </style>
+                  </head>
+                  <body>
+                      <div class="container">
+                          <h1>Model Details</h1>
+                          <p>Algorithm Name: {{ details.algorithm_name }}</p>
+                          <p>Related Papers:
+                              <ul>
+                                  {% for paper in details.related_papers %}
+                                      <li><a href="{{ paper }}" target="_blank">{{ paper }}</a></li>
+                                  {% endfor %}
+                              </ul>
+                          </p>
+                          <p>Version: {{ details.version }}</p>
+                          <p>Training Date: {{ details.training_date }}</p>
+                          <p>Dataset Used: <a href="{{ details.dataset_url }}" target="_blank">{{ details.dataset_used }}</a></p>
+                          <p>{{ details.dataset_description }}</p>
+                          <img src="{{ details.generated_image_path }}" alt="80s Music Theme Image">
+                          <button onclick="window.location.href='/'">Back</button>
+                      </div>
+                  </body>
+                  </html>
+
   /predict-form:
     get:
       summary: "Prediction Form"
@@ -42,8 +182,74 @@ paths:
             text/html:
               schema:
                 type: string
-                example: "<!DOCTYPE html>...</html>"
-    
+                example: |
+                  <!DOCTYPE html>
+                  <html lang="en">
+                  <head>
+                      <meta charset="UTF-8">
+                      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                      <title>Predict</title>
+                      <style>
+                          body {
+                              font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                              background-color: #f0f4f8;
+                              color: #333333;
+                              margin: 0;
+                              padding: 20px;
+                              display: flex;
+                              flex-direction: column;
+                              align-items: center;
+                              justify-content: center;
+                              height: 100vh;
+                          }
+                          h1 {
+                              color: #e65996;
+                          }
+                          form {
+                              margin: 20px;
+                          }
+                          .custom-file-upload {
+                              background-color: #333;
+                              color: white;
+                              border: none;
+                              padding: 10px 20px;
+                              border-radius: 5px;
+                              cursor: pointer;
+                              display: inline-block;
+                          }
+                          input[type="file"] {
+                              display: none;
+                          }
+                          input[type="submit"], button {
+                              background-color: #333;
+                              color: white;
+                              border: none;
+                              padding: 10px 20px;
+                              border-radius: 5px;
+                              cursor: pointer;
+                              transition: background-color 0.3s;
+                          }
+                          input[type="submit"]:hover, button:hover {
+                              background-color: #555;
+                          }
+                          button {
+                              margin-top: 20px;
+                          }
+                      </style>
+                  </head>
+                  <body>
+                      <h1>Upload an Audio File for Prediction</h1>
+                      <form action="/predict" method="post" enctype="multipart/form-data">
+                          <label class="custom-file-upload">
+                              <input type="file" name="audio_file" accept=".wav,.mp3">
+                              Choose File
+                          </label>
+                          <input type="submit" value="Predict">
+                      </form>
+                      <button onclick="window.location.href='/'">Back</button>
+                  </body>
+                  </html>
+
   /predict:
     post:
       summary: "Predict Song Cluster"
@@ -65,4 +271,17 @@ paths:
             text/html:
               schema:
                 type: string
-                example: "<!DOCTYPE html>...</html>"
+                example: |
+                  <!DOCTYPE html>
+                  <html lang="en">
+                  <head>
+                      <meta charset="UTF-8">
+                      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                      <title>Prediction Result</title>
+                      <style>
+                          body {
+                              font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                              background-color: #f0f4f8;
+                              color: #333;
+                              margin: 0;
+                              padding: 20
