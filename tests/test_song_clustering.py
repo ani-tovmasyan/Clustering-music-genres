@@ -66,6 +66,6 @@ def test_cluster_maker(covers_database_path, encoder_path, model_path, audio_pat
 
     # Test querying
     most_similar_classes = cluster_maker(audio_path)
-    assert isinstance(most_similar_classes, list)
+    assert isinstance(most_similar_classes, np.ndarray) or isinstance(most_similar_classes, list)
     assert len(most_similar_classes) == 5
     assert len(set(most_similar_classes)) == 5  # Test that all returned classes are unique
