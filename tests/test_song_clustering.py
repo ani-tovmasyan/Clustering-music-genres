@@ -40,7 +40,12 @@ def test_cluster_maker(covers_database_path, encoder_path, model_path, audio_pat
 
     # Test if building HPCP features works
     cluster_maker.build_hpcp()
-    assert os.path.exists(audio_path.replace('.wav', '.npy').replace('.mp3', '.npy'))
+    files = os.listdir(covers_database_path)
+    
+    # Filter out only .mp3 and .wav files
+    files = [file for file in files if file.endswith('.mp3') or file.endswith('.wav')]
+    for path in files:
+        assert os.path.exists(audio_path.replace('.wav', '.npy').replace('.mp3', '.npy'))
 
     # Test reading database
     cluster_maker.read_database()
